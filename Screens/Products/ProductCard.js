@@ -7,6 +7,7 @@ import {
   Text,
   Button,
 } from "react-native";
+import { useToast } from "native-base";
 
 // import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ var { width } = Dimensions.get("window");
 
 const ProductCard = (props) => {
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const product = props;
 
@@ -44,6 +46,12 @@ const ProductCard = (props) => {
             color={"green"}
             onPress={() => {
               dispatch(actions.addToCart({ quantity: 1, product }));
+              toast.show({
+                title: `${product.name} added to Cart`,
+                status: "success",
+                description: "Go to Cart to complete the order",
+                placement: "top",
+              });
             }}
           />
         </View>

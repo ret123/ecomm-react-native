@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   Image,
   View,
@@ -8,12 +9,15 @@ import {
   Button,
   Dimensions,
 } from "react-native";
-import { Heading } from "native-base";
+import { Heading, useToast } from "native-base";
+import * as actions from "../../Redux/Actions/cartActions";
 
 var { height } = Dimensions.get("window");
 const SingleProduct = (props) => {
   const [item, setItem] = useState(props.route.params.item);
   const [available, setAvailable] = useState("");
+  const dispatch = useDispatch();
+  const toast = useToast();
 
   return (
     <View style={styles.container}>
@@ -35,7 +39,18 @@ const SingleProduct = (props) => {
         </View>
         <View style={styles.bottomContainer}>
           <Text style={styles.price}>$ {item.price}</Text>
-          <Button title="Add" />
+          <Button
+            title="Add"
+            onPress={() => {
+              dispatch(actions.addToCart({ quantity: 1, item }));
+              toast.show({
+                title: `${item.name} added to Cart`,
+                status: "success",
+                description: "Go to Cart to complete the order",
+                placement: "top",
+              });
+            }}
+          />
         </View>
       </ScrollView>
     </View>

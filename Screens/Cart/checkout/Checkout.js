@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const countries = require("../../../assets/data/countries.json");
 
-export default function Checkout() {
+export default function Checkout(props) {
   const cartItems = useSelector((state) => state.cartItems);
 
   const [orderItems, setOrderItems] = useState();
@@ -35,7 +35,7 @@ export default function Checkout() {
       orderItems,
       phone,
       shippingAddress1: address,
-      shippingaddress: 2,
+      shippingAddress2: address2,
       zip,
     };
     props.navigation.navigate("Payment", { order: order });
@@ -55,6 +55,7 @@ export default function Checkout() {
           keyboardType={"numeric"}
           onChangeText={(text) => setPhone(text)}
         />
+
         <Input
           placeholder={"Address"}
           name={"address"}
@@ -78,7 +79,7 @@ export default function Checkout() {
           name={"zip"}
           value={zip}
           keyboardType={"numeric"}
-          onChangeText={(text) => setCity(text)}
+          onChangeText={(text) => setZip(text)}
         />
         <Select
           placeholder="Select Country"

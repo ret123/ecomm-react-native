@@ -32,6 +32,9 @@ var { height, width } = Dimensions.get("window");
 const Cart = (props) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartItems);
+  useEffect(() => {
+    console.log(cartItems);
+  }, []);
 
   var total = 0;
   cartItems.forEach((cart) => {

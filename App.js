@@ -3,12 +3,11 @@ import React from "react";
 import { StyleSheet, LogBox, View } from "react-native";
 import { NativeBaseProvider, Box } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
-import Toast from "react-native-toast-message";
 
 import { Provider } from "react-redux";
 import store from "./Redux/store";
+import Auth from "./Context/store/Auth";
 
-import ProductContainer from "./Screens/Products/ProductContainer";
 import Header from "./Shared/Header";
 import Main from "./Navigators/Main";
 
@@ -16,14 +15,16 @@ LogBox.ignoreAllLogs(true);
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <Header />
-          <Main />
-        </NavigationContainer>
-      </NativeBaseProvider>
-    </Provider>
+    <Auth>
+      <Provider store={store}>
+        <NativeBaseProvider>
+          <NavigationContainer>
+            <Header />
+            <Main />
+          </NavigationContainer>
+        </NativeBaseProvider>
+      </Provider>
+    </Auth>
   );
 }
 
@@ -32,6 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 });

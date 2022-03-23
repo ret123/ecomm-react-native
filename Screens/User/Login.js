@@ -1,23 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import FormContainer from "../../Shared/Form/FormContainer";
 import Input from "../../Shared/Form/Input";
 import Error from "../../Shared/Error";
 
-const Login = (props) => {
+import AuthGlobal from "../../Context/store/AuthGlobal";
+import { loginUser } from "../../Context/actions/authActions";
+
+const Login = props => {
+  const context = useContext(AuthGlobal);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (context.stateUser.isAuthenticated === true) {
+      props.navigation.navigate("UserProfile");
+    }
+  }, [context.stateUser.isAuthenticated]);
+
   const handleSubmit = () => {
     const user = {
       email,
-      password,
+      password
     };
     if (email === "" || password === "") {
       setError("Please fill in the credentials");
     } else {
-      console.log(user);
+      loginUser(user, context.dispatch);
     }
   };
 
@@ -28,7 +38,7 @@ const Login = (props) => {
         name={"email"}
         id={"email"}
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={text => setEmail(text)}
       />
       <Input
         placeholder={"Enter Password"}
@@ -36,7 +46,7 @@ const Login = (props) => {
         id={"password"}
         secureTextEntry={true}
         value={password}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={text => setPassword(text)}
       />
       <View style={styles.buttonGroup}>
         {error ? <Error message={error} /> : null}
@@ -58,8 +68,8 @@ const Login = (props) => {
 const styles = StyleSheet.create({
   buttonGroup: {
     width: "80%",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });
 
 export default Login;
